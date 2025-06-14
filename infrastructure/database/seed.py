@@ -12,29 +12,29 @@ def seed_database(session: Session):
     # Создаем пользователей
     users = [
         UserModel(
-            username="ivan_petrov",
-            email="ivan@example.com",
+            username="Kirill_SOZINOV",
+            email="KIRA@example.com",
             password_hash="hashed_password_1",
             is_active=True,
             created_at=datetime.utcnow() - timedelta(days=10)
         ),
         UserModel(
-            username="anna_sidorova",
+            username="anna_Petrova",
             email="anna@example.com",
             password_hash="hashed_password_2",
             is_active=True,
             created_at=datetime.utcnow() - timedelta(days=7)
         ),
         UserModel(
-            username="alex_ivanov",
+            username="alex_Sidorov",
             email="alex@example.com",
             password_hash="hashed_password_3",
             is_active=True,
             created_at=datetime.utcnow() - timedelta(days=5)
         ),
         UserModel(
-            username="Karrew9",
-            email="maximzaripovs887@gmail.com",
+            username="SofyaMaksimova",
+            email="maksimovassofya@yandex.ru",
             password_hash="qwertyui",
             is_active=True,
             created_at=datetime.utcnow() - timedelta(days=0)
@@ -48,13 +48,13 @@ def seed_database(session: Session):
     posts = [
         PostModel(
             title="Мой первый пост",
-            content="Это содержание моего первого поста о программировании.",
+            content="Это содержание моего первого поста о выпечке.",
             author_id=users[0].id,
             created_at=datetime.utcnow() - timedelta(days=3)
         ),
         PostModel(
             title="Путешествие в горы",
-            content="В выходные я отправился в горы и хочу поделиться впечатлениями...",
+            content="В выходные я решил приготовить котлеты в панировке...",
             author_id=users[1].id,
             created_at=datetime.utcnow() - timedelta(days=2)
         ),
@@ -71,7 +71,7 @@ def seed_database(session: Session):
     # Создаем комментарии
     comments = [
         CommentModel(
-            content="Отличный пост, Иван!",
+            content="Отличный пост, Кирилл!",
             author_id=users[1].id,
             post_id=posts[0].id,
             created_at=datetime.utcnow() - timedelta(hours=5)
