@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | {{ app_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <article class="blog-post">
+                <h1 class="blog-post-title">{{ post.title }}</h1>
+                <p class="blog-post-meta">
+                    Опубликовано {{ post.created_at_str }} |
+                    Автор: <a href="#">{{ post.author.username }}</a>
+                </p>
+
+                <div class="post-content">
+                    {{ post.content }}
+                </div>
+
+                <hr>
+
+                <div class="post-tags mb-4">
+                    <span class="badge bg-secondary">Программирование</span>
+                    <span class="badge bg-secondary">Python</span>
+                </div>
+            </article>
+
+            <div class="comments-section mt-5">
+                <h3>Комментарии ({{ post.comments|length }})</h3>
+
+                {% if post.comments %}
+                    {% for comment in post.comments %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ comment.author.username }}</h5>
+                                <small class="text-muted">
+                                    {{ comment.created_at_str }}
+                                </small>
+                            </div>
+                            <p class="card-text">{{ comment.content }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">Пока нет комментариев. Будьте первым!</div>
+                {% endif %}
+
+                <div class="add-comment mt-4">
+                    <h4>Добавить комментарий</h4>
+                    {% if current_user %}
+                    <form method="post" action="/posts/{{ post.id }}/comments">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <div class="mb-3">
+                            <textarea class="form-control" name="content" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        Чтобы оставить комментарий, пожалуйста <a href="/auth/login">войдите</a>.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Об авторе
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.author.username }}</h5>
+                    <p class="card-text">Всего постов: {{ post.author.posts|length }}</p>
+                    <a href="#" class="btn btn-outline-primary">Все посты автора</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Похожие посты
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for similar_post in similar_posts %}
+                    <a href="/posts/{{ similar_post.id }}" class="list-group-item list-group-item-action">
+                        {{ similar_post.title }}
+                    </a>
+                    {% else %}
+                    <div class="list-group-item">Нет похожих постов</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
